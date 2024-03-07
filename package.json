@@ -1,0 +1,22 @@
+{
+  "name": "ts-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "serverless offline",
+    "deploy": "serverless deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.136",
+    "esbuild": "^0.20.1",
+    "serverless": "^3.38.0",
+    "serverless-esbuild": "^1.52.0",
+    "serverless-offline": "^13.3.3",
+    "serverless-plugin-typescript": "^2.1.5",
+    "typescript": "^5.4.2"
+  }
+}
