@@ -5,12 +5,56 @@ useDotenv: true
 provider:
   name: aws
   runtime: nodejs20.x
+  region: us-west-2
+  # habilita los permisos de acciones como escritura y lectura a todos servicios en este documento
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: 
+        - arn:aws:dynamodb:us-west-2:637423627246:table/TaskTable
+
 
 functions:
   hello:
     handler: src/hello.handler
     events:
-      - httpApi: GET /hello
+      - httpApi: GET /
+  addTask:
+    handler: src/addTask.handler
+    events:
+      - httpApi: POST /tasks
+  getTasks:
+    handler: src/getTasks.handler
+    events:
+      - httpApi: GET /tasks
+  getTask:
+    handler: src/getTask.handler
+    events:
+      - httpApi: GET /tasks/{id}
+  updateTask:
+    handler: src/updateTask.handler
+    events:
+      - httpApi: PUT /tasks/{id}
+  deleteTask:
+    handler: src/deleteTask.handler
+    events:
+      - httpApi: DELETE /tasks/{id}
+
+	
+resources: # CloudFormation template syntax
+  Resources:
+     TaskTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: TaskTable
+        BillingMode: PAY_PER_REQUEST # Modo de pago de la capa gratuita
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
 
 custom:
   esbuild:
@@ -20,3 +64,4 @@ custom:
 plugins:
   - serverless-esbuild
   - serverless-offline
+
